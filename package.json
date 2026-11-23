@@ -1,0 +1,33 @@
+{
+  "name": "statute-participation-explorer",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Step through 3,000 coded U.S. statute sections one at a time and see how four AI model runs answered whether each recommends or requires participation, with their confidence and stated reasons.",
+  "license": "MIT",
+  "author": "Asbetos",
+  "homepage": "https://statute-participation-explorer.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Asbetos/statute-participation-explorer.git"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "preview": "npx serve@14.2.4 out",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "20.19.43",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}
