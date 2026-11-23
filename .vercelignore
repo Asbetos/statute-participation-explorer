@@ -1,0 +1,4 @@
+# Vercel builds the site itself; never upload local build output
+out/
+.next/
+node_modules/
