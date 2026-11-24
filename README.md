@@ -4,7 +4,8 @@
 
 Step through 3,000 coded U.S. statute sections, one at a time, and see how four AI model runs answered
 *“Does this section recommend or require participation?”*: each model’s answer, the confidence it stated, the reason it
-gave and the passage it relied on, set against the human coders’ final label.
+gave and the passage it relied on, set against the human coders’ final label. A second tab, **Dashboard**, has the
+numbers behind it.
 
 ![One section in the viewer: the statute text with each model’s quoted passage underlined, and a card for each model below](docs/screenshot.png)
 
@@ -24,7 +25,15 @@ answer is checked against the same final label.
 | **Claude Opus 5.5** | November | medium reasoning setting; the instructions as one block of text |
 | **Qwen3.6-27B** | November | thinking mode off; the instructions as a conversation |
 
-Each screen holds one section:
+The site has two tabs.
+
+- **Sections** (`/`): one section per screen, described below.
+- **Dashboard** (`/dashboard/`): this run’s two models, Claude Fable 5.2 and Qwen3.6-27B, against the coders’ final
+  labels on all 3,000 sections. It explains each measure, shows where each model goes wrong and how sure it was, and
+  lists every section where a model differs from the final label, with its reason. *Open as a full page* shows it on
+  its own.
+
+Each screen of the Sections tab holds one section:
 
 - **The section text**, exactly as the models saw it, with the passage each model quoted underlined.
 - **One card per model**: its answer; how that compares with the final label (*caught*, *missed*, *false alarm* or
@@ -49,7 +58,8 @@ Yes. The coders’ first answers, before they reconciled, are shown as labels on
 ## Reading the results with care
 
 - **A stated reason is the model’s own account** of its answer, written alongside it. It may not capture everything that
-  produced the label. Fable and Opus also think privately before answering; that thinking was not saved.
+  produced the label. Fable and Opus can also think privately before answering, and did on most sections; that
+  thinking was not saved.
 - **Stated confidence is the model’s own claim**, not a measured probability.
 - **P(Yes)** is the probability Qwen’s own output gave the word “Yes” where it wrote its label. It is almost always very
   close to 0 or 1.
@@ -65,10 +75,14 @@ Yes. The coders’ first answers, before they reconciled, are shown as labels on
 | `sections/<id>.json` | one section’s text and each run’s full answer | when that section is shown (the next ones are fetched ahead) |
 | `search.json` | every section’s text and reasons, lower-cased | the first time someone searches for words |
 
-To regenerate it, run this in the study repo:
+`public/embed/dashboard.html` is the Dashboard tab’s page: the study’s dashboard, one self-contained file, built with
+this site’s typeface (`public/fonts/`) and colours. Inside the tab it drops its own title and theme button and follows
+the site’s theme switch.
+
+To regenerate both, run this in the study repo:
 
 ```bash
-python eval/reasoning_viewer.py --export ../statute-participation-explorer/public/data
+./eval/run_q1_block.sh site     # public/data and public/embed/dashboard.html (SITE= points at this checkout)
 ```
 
 ## Running it locally
@@ -80,23 +94,27 @@ npm run build      # the static site, in out/
 npm run preview    # serve out/ locally
 ```
 
-It needs Node 20.9 or later (see `.nvmrc`). The site is fully static (Next.js with `output: "export"`); Vercel builds it
-from `main` and serves the files, so every push redeploys it.
+It needs Node 20.9 or later (see `.nvmrc`). The site is fully static (Next.js with `output: "export"`, one folder per
+page); Vercel builds it from `main` and serves the files, so every push redeploys it.
 
 ## Project structure
 
 ```
 src/
-  app/          page shell, fonts, global styles and icon
-  components/   Viewer (state, filtering, navigation), FilterBar, SearchBox,
-                SectionText (underlined passages), RunCard, AboutDialog, ThemeToggle
+  app/          page shell, fonts, global styles and icon; dashboard/ is the Dashboard tab
+  components/   SiteHeader (title, tabs, GitHub, theme), Viewer (state, filtering, navigation),
+                FilterBar, SearchBox, SectionText (underlined passages), RunCard, AboutDialog,
+                ThemeToggle, DashboardView (the dashboard page in a frame)
   lib/          types, model helpers (outcomes, colours, number formats), link state
 public/data/    the generated data (see above)
+public/embed/   the generated dashboard page
+public/fonts/   Public Sans for the dashboard page
 docs/           the screenshot above
 ```
 
 ## License
 
-The code is released under the [MIT License](LICENSE). The statute texts are U.S. public laws, which are works of the
+The code is released under the [MIT License](LICENSE). Public Sans, in `public/fonts/`, is by the U.S. Web Design
+System and is licensed under the [SIL Open Font License 1.1](https://openfontlicense.org). The statute texts are U.S. public laws, which are works of the
 federal government. The coding labels come from the Citizen Voice project, and the model answers were produced by the
 models named above.

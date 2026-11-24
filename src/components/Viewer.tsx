@@ -6,12 +6,10 @@ import FilterBar from "./FilterBar";
 import RunCard from "./RunCard";
 import SearchBox from "./SearchBox";
 import SectionText from "./SectionText";
-import ThemeToggle from "./ThemeToggle";
+import SiteHeader from "./SiteHeader";
 import { DEFAULT_FILTERS, fmtInt, isLookup, matchesLookup, modelsDisagree, outcomeOf, type Filters } from "@/lib/model";
 import { readHash, writeHash } from "@/lib/state";
 import type { IndexFile, IndexSection, Outcome, SectionFile } from "@/lib/types";
-
-const REPO_URL = "https://github.com/Asbetos/statute-participation-explorer";
 
 export default function Viewer() {
   const [index, setIndex] = useState<IndexFile | null>(null);
@@ -129,22 +127,16 @@ export default function Viewer() {
 
   return (
     <div className="app">
-      <header className="top">
-        <div className="brand">
-          <p className="eyebrow">Citizen Voice project · Coding participation in U.S. public laws</p>
-          <h1>Q1 Reasoning Viewer</h1>
-          <p className="lede">
-            How four AI model runs answered <q>Does this section recommend or require participation?</q> for 3,000 coded
-            statute sections, one section at a time.
-          </p>
-        </div>
-        <div className="top-actions">
+      <SiteHeader
+        active="sections"
+        title="Q1 Reasoning Viewer"
+        lede={<>How four AI model runs answered <q>Does this section recommend or require participation?</q> for 3,000
+          coded statute sections, one section at a time.</>}
+        tools={<>
           <SearchBox value={filters.query} searching={searching} inputRef={searchBox} onChange={q => update({ query: q })} />
           <button type="button" className="btn ghost" onClick={() => setAbout(true)}>How to read this</button>
-          <a className="btn ghost" href={REPO_URL} target="_blank" rel="noreferrer">GitHub</a>
-          <ThemeToggle />
-        </div>
-      </header>
+        </>}
+      />
 
       <FilterBar runs={runs} filters={filters} counts={counts} active={active}
                  onChange={update} onReset={() => setFilters(f => ({ ...DEFAULT_FILTERS, model: f.model }))} />
@@ -170,7 +162,7 @@ export default function Viewer() {
               <span className="facts">
                 Volume {sec.v} · {sec.l} · {fmtInt(sec.n)} characters · coders’ first answers: {sec.c || "—"}
               </span>
-              {sec.r ? <span className="tag">Grants a power to write regulations</span> : null}
+              {sec.r ? <span className="tag" title="Found by a keyword search: the text mentions a power to write regulations and names no comment period, hearing or consultation">Regulation-power keywords</span> : null}
             </div>
             <div className="nav">
               <button type="button" className="btn nav-btn" onClick={() => go(-1)} disabled={pos === 0}

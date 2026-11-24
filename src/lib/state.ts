@@ -8,6 +8,7 @@ export interface ViewState extends Filters {
 }
 
 const OUTCOMES = new Set(["all", "caught", "missed", "false alarm", "correct No"]);
+const LAST_VIEW = "q1v-view";
 
 export function readHash(nRuns: number): ViewState {
   const p = new URLSearchParams(typeof window === "undefined" ? "" : window.location.hash.replace(/^#/, ""));
@@ -32,4 +33,10 @@ export function writeHash(v: ViewState): void {
   const hash = p.toString();
   const url = `${window.location.pathname}${window.location.search}${hash ? `#${hash}` : ""}`;
   window.history.replaceState(null, "", url);
+  try { sessionStorage.setItem(LAST_VIEW, hash ? `#${hash}` : ""); } catch { /* storage blocked */ }
+}
+
+/** The last section and filters shown in this browser tab ("#s=..."), so the Sections tab can return to them. */
+export function lastView(): string {
+  try { return sessionStorage.getItem(LAST_VIEW) ?? ""; } catch { return ""; }
 }

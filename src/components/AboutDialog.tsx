@@ -48,6 +48,10 @@ export default function AboutDialog({ open, onClose, runs, generated }: Props) {
             label. It is almost always very close to 0 or 1.</li>
         </ul>
 
+        <h3>The numbers behind it</h3>
+        <p>The <b>Dashboard</b> tab sums up this run: how Claude Fable 5.2 and Qwen3.6-27B compare with the coders’ final
+          labels on all 3,000 sections, what each measure means, where each model goes wrong and how sure it was.</p>
+
         <h3>Finding sections</h3>
         <p>Pick a model and an outcome to see, for example, only Fable’s false alarms; the counts on each choice update as
           you filter. <i>Models disagree</i> keeps the sections where the four runs do not all give the same answer.
@@ -57,7 +61,8 @@ export default function AboutDialog({ open, onClose, runs, generated }: Props) {
         <h3>Read with care</h3>
         <ul>
           <li>A stated reason is the model’s own account of its answer, written with it. It may not capture everything
-            that produced the label. Fable and Opus also think privately before answering; that thinking was not saved.</li>
+            that produced the label. Fable and Opus can also think privately before answering, and did on most sections;
+            that thinking was not saved.</li>
           <li>Stated confidence is the model’s own claim, not a measured probability.</li>
           <li>The final label is the coders’ reconciled judgement, not an absolute truth: some disagreements may be
             coding errors.</li>
