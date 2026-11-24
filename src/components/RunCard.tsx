@@ -16,6 +16,13 @@ interface Props {
 
 const ICON = { caught: "✓", "correct No": "✓", missed: "✗", "false alarm": "✗", "no answer": "–" } as const;
 
+/** Why a run has no label for this section, in plain words. */
+function noAnswerText(reason: string | undefined): string {
+  if (reason === "not run yet") return "Not answered yet: this run is still going.";
+  if (reason?.startsWith("truncated")) return "No answer: the model ran out of reply space on every try, so it never gave a label.";
+  return `No answer${reason ? ` (${reason})` : ""}.`;
+}
+
 export default function RunCard({ run, label, confidence, final, answer, focused, dimmed, onHover }: Props) {
   const outcome = outcomeOf(label, final);
   const c = familyColor(run);
@@ -71,7 +78,7 @@ export default function RunCard({ run, label, confidence, final, answer, focused
           </div>
         </>
       ) : (
-        <p className="noans">{answer?.e === "not run yet" ? "Not answered yet: this run is still going." : `No answer${answer?.e ? ` (${answer.e})` : ""}.`}</p>
+        <p className="noans">{noAnswerText(answer?.e)}</p>
       )}
     </article>
   );
