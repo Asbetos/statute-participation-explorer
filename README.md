@@ -75,14 +75,14 @@ Yes. The coders’ first answers, before they reconciled, are shown as labels on
 | `sections/<id>.json` | one section’s text and each run’s full answer | when that section is shown (the next ones are fetched ahead) |
 | `search.json` | every section’s text and reasons, lower-cased | the first time someone searches for words |
 
-`public/embed/dashboard.html` is the Dashboard tab’s page: the study’s dashboard, one self-contained file, built with
+`public/embed/dashboard/index.html` is the Dashboard tab’s page: the study’s dashboard, one self-contained file, built with
 this site’s typeface (`public/fonts/`) and colours. Inside the tab it drops its own title and theme button and follows
 the site’s theme switch.
 
 To regenerate both, run this in the study repo:
 
 ```bash
-./eval/run_q1_block.sh site     # public/data and public/embed/dashboard.html (SITE= points at this checkout)
+./eval/run_q1_block.sh site     # public/data and public/embed/dashboard/index.html (SITE= points at this checkout)
 ```
 
 ## Running it locally

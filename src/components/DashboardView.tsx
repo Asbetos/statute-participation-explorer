@@ -6,7 +6,9 @@ import SiteHeader from "./SiteHeader";
 // The study's dashboard, written by the study repo (eval/compare_dashboard.py --site) as one self-contained page.
 // It is shown in a frame so its charts and scripts stay as built; inside the frame it takes the site's typeface
 // and colours, drops its own title and theme button, and follows the theme switch in this header.
-const DASHBOARD = "/embed/dashboard.html";
+// A folder with an index.html, not dashboard.html: Vercel serves .html files only at their extension-less address,
+// so a ".html" link breaks there while it works on a plain file server; "/embed/dashboard/" works on both.
+const DASHBOARD = "/embed/dashboard/";
 
 export default function DashboardView() {
   const frame = useRef<HTMLIFrameElement>(null);
